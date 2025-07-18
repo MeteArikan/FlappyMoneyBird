@@ -1,20 +1,37 @@
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
-{   
+{
     [SerializeField] private float _jumpSpeed = 3f;
     private Rigidbody2D _playerRigidbody;
-    
-    private void Start() {
+
+    private void Start()
+    {
         _playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Scoring"))
+        {
+            GameManager.Instance.IncreaseScore();
+            
+        }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Pipes"))
+        {
+
         }
     }
 }
