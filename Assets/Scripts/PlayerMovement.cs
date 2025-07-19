@@ -2,11 +2,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //[SerializeField] private GameObject _deathScreen;
     [SerializeField] private float _jumpSpeed = 3f;
+
+
     private Rigidbody2D _playerRigidbody;
 
     private void Start()
     {
+        //_deathScreen.SetActive(false);
+        //Time.timeScale = 1f;
         _playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -31,7 +36,9 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.CompareTag("Pipes"))
         {
-
+            // Time.timeScale = 0f;
+            // _deathScreen.SetActive(true);
+            GameManager.Instance.OnGameOver();
         }
     }
 }

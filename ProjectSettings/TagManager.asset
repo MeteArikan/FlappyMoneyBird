@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pipes
   - Scoring
+  - ScoreText
   layers:
   - Default
   - TransparentFX
