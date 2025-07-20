@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -76,8 +77,10 @@ public class GameManager : MonoBehaviour
         _deathScreen.SetActive(true);
     }
 
+
     public void RestartGame()
     {
+        AudioManager.Instance.Play(SoundType.TransitionSound);
         SceneManager.LoadScene("SampleScene");
     }
 }
