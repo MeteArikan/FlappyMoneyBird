@@ -41,14 +41,14 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
 
-    // Make sure your high score text GameObject has the "HighScoreText" tag
-    _highScoreText = GameObject.Find("HighScoreText").GetComponent<TMP_Text>();
-    _scoreText = GameObject.FindWithTag("ScoreText").GetComponent<TMP_Text>();
-    _deathScreen = GameObject.Find("DeathScreen");
-    OnGameStart();
+        // Make sure your high score text GameObject has the "HighScoreText" tag
+        _highScoreText = GameObject.Find("HighScoreText").GetComponent<TMP_Text>();
+        _scoreText = GameObject.FindWithTag("ScoreText").GetComponent<TMP_Text>();
+        _deathScreen = GameObject.Find("DeathScreen");
+        OnGameStart();
 
-    if (_scoreText != null)
-        _scoreText.text = _score.ToString();
+        if (_scoreText != null)
+            _scoreText.text = _score.ToString();
     }
     public void OnGameStart()
     {
@@ -68,13 +68,13 @@ public class GameManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        if(_score > PlayerPrefs.GetInt("highScore"))
+        if (_score > PlayerPrefs.GetInt("highScore"))
         {
             PlayerPrefs.SetInt("highScore", _score);
         }
         _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
-        Time.timeScale = 0f;
-        _deathScreen.SetActive(true);
+        Invoke(nameof(StopTime), 1f);
+        
     }
 
 
@@ -82,5 +82,11 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.Play(SoundType.TransitionSound);
         SceneManager.LoadScene("SampleScene");
+    }
+
+    public void StopTime()
+    {
+        Time.timeScale = 0f;
+        _deathScreen.SetActive(true);
     }
 }

@@ -779,6 +779,7 @@ GameObject:
   - component: {fileID: 601949063}
   - component: {fileID: 601949062}
   - component: {fileID: 601949065}
+  - component: {fileID: 601949066}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -924,6 +925,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &601949066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601949061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03372e8b69d2d4723ae42f4a8bd9815a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerController: {fileID: 1489227159}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,6 +1418,8 @@ GameObject:
   - component: {fileID: 1489227161}
   - component: {fileID: 1489227160}
   - component: {fileID: 1489227159}
+  - component: {fileID: 1489227164}
+  - component: {fileID: 1489227163}
   - component: {fileID: 1489227158}
   - component: {fileID: 1489227157}
   - component: {fileID: 1489227162}
@@ -1582,6 +1598,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1489227163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489227156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5766145e303fa46dbba97aaf3a54189b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1489227164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489227156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e6535afd8f841888f8906239b1f316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerAnimator: {fileID: 1489227162}
 --- !u!1 &1832345122
 GameObject:
   m_ObjectHideFlags: 0

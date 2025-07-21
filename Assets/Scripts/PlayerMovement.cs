@@ -3,24 +3,32 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public event Action OnPlayerDead;
+
     //[SerializeField] private GameObject _deathScreen;
-    //[SerializeField] private Animator _playerAnimator;
+    private Animator _playerAnimator;
+    private StateController _stateController;
     [SerializeField] private float _jumpSpeed = 3f;
 
 
     private Rigidbody2D _playerRigidbody;
+    private bool _isDead;
+
+    public bool IsDead => _isDead;
 
     private void Start()
     {
         //_deathScreen.SetActive(false);
         //Time.timeScale = 1f;
         _playerRigidbody = GetComponent<Rigidbody2D>();
+        _playerAnimator = GetComponent<Animator>();
+        _stateController = GetComponent<StateController>();
     }
 
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !_isDead)
         {
             _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
             AudioManager.Instance.Play(SoundType.FlySound);
@@ -46,16 +54,21 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-            //BirdFall();
-            GameManager.Instance.OnGameOver();
+            BirdFall();
+
         }
     }
 
-    // private void BirdFall()
-    // {
-    //     _playerAnimator.SetBool("isDeath", true);
-    //      AudioManager.Instance.Play(SoundType.DieSound);
-    // }
+    private void BirdFall()
+    {
+        _isDead = true;
+        _stateController.ChangePlayerState(PlayerState.Death);
+        //_playerAnimator.SetBool("IsDead", true);
+        OnPlayerDead?.Invoke();
+        AudioManager.Instance.Play(SoundType.DieSound);
+        GameManager.Instance.OnGameOver();
+    }
+    
 
     // private void PlayDieSound()
     // {
