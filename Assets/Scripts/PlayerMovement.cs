@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Pipes"))
+        if (other.gameObject.CompareTag("HitObjects") && !_isDead)
         {
             AudioManager.Instance.Play(SoundType.HitSound);
             //AudioManager.Instance.Play(SoundType.DieSound);
