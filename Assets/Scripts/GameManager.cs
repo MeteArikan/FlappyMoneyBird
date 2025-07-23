@@ -7,13 +7,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private TMP_Text _scoreText;
+    public static Action<int> OnSetScoreUI;
+    public static Action OnGameOverEvent;
+
+    //private TMP_Text _scoreText;
     private GameObject _deathScreen;
     private TMP_Text _highScoreText;
 
     private int _score;
 
-
+    public int GetScore => _score;
 
     private void Awake()
     {
@@ -43,12 +46,12 @@ public class GameManager : MonoBehaviour
 
         // Make sure your high score text GameObject has the "HighScoreText" tag
         _highScoreText = GameObject.Find("HighScoreText").GetComponent<TMP_Text>();
-        _scoreText = GameObject.FindWithTag("ScoreText").GetComponent<TMP_Text>();
+        //_scoreText = GameObject.FindWithTag("ScoreText").GetComponent<TMP_Text>();
         _deathScreen = GameObject.Find("DeathScreen");
         OnGameStart();
 
-        if (_scoreText != null)
-            _scoreText.text = _score.ToString();
+        // if (_scoreText != null)
+        //     _scoreText.text = _score.ToString();
     }
     public void OnGameStart()
     {
@@ -56,14 +59,16 @@ public class GameManager : MonoBehaviour
             _deathScreen.SetActive(false);
         Time.timeScale = 1f;
         _score = 0;
+        OnSetScoreUI?.Invoke(_score);
         _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
     }
 
     public void IncreaseScore()
     {
         _score++;
-        if (_scoreText != null)
-            _scoreText.text = _score.ToString();
+        OnSetScoreUI?.Invoke(_score);
+        // if (_scoreText != null)
+        //     _scoreText.text = _score.ToString();
     }
 
     public void OnGameOver()
@@ -73,6 +78,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("highScore", _score);
         }
         _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
+        OnGameOverEvent?.Invoke();
         Invoke(nameof(StopTime), 1f);
         
     }
