@@ -38,12 +38,16 @@ public class ScoreController : MonoBehaviour
     //     }
     // }
 
-    private void UpdateScoreDisplay(int score)
+    public void UpdateScoreDisplay(int score)
     {
         // Remove old digits
         foreach (var digitObj in _scoreDigits)
             Destroy(digitObj);
+        CaptureScore(score);
+    }
 
+    private void CaptureScore(int score)
+    {
         string scoreStr = score.ToString();
         _scoreDigits = new GameObject[scoreStr.Length];
 
@@ -56,4 +60,6 @@ public class ScoreController : MonoBehaviour
             _scoreDigits[i] = digitObj;
         }
     }
+
+
 }

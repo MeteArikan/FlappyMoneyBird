@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public static Action<int> OnSetScoreUI;
-    public static Action OnGameOverEvent;
+    public static Action OnSetBestScore;
+    public static Action OnShowDeathUI;
 
     //private TMP_Text _scoreText;
-    private GameObject _deathScreen;
-    private TMP_Text _highScoreText;
+    //private GameObject _deathScreen;
+    //private TMP_Text _highScoreText;
 
     private int _score;
 
@@ -45,9 +46,9 @@ public class GameManager : MonoBehaviour
     {
 
         // Make sure your high score text GameObject has the "HighScoreText" tag
-        _highScoreText = GameObject.Find("HighScoreText").GetComponent<TMP_Text>();
+        //_highScoreText = GameObject.Find("HighScoreText").GetComponent<TMP_Text>();
         //_scoreText = GameObject.FindWithTag("ScoreText").GetComponent<TMP_Text>();
-        _deathScreen = GameObject.Find("DeathScreen");
+        //_deathScreen = GameObject.Find("DeathScreen");
         OnGameStart();
 
         // if (_scoreText != null)
@@ -55,12 +56,12 @@ public class GameManager : MonoBehaviour
     }
     public void OnGameStart()
     {
-        if (_deathScreen != null)
-            _deathScreen.SetActive(false);
+        // if (_deathScreen != null)
+        //     _deathScreen.SetActive(false);
         Time.timeScale = 1f;
         _score = 0;
         OnSetScoreUI?.Invoke(_score);
-        _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
+        //_highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
     }
 
     public void IncreaseScore()
@@ -77,11 +78,12 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("highScore", _score);
         }
-        _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
-        OnGameOverEvent?.Invoke();
+        //_highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
         Invoke(nameof(StopTime), 1f);
         
     }
+
+    public int GetHighScore() => PlayerPrefs.GetInt("highScore");
 
 
     public void RestartGame()
@@ -90,9 +92,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
+
     public void StopTime()
     {
         Time.timeScale = 0f;
-        _deathScreen.SetActive(true);
+        OnShowDeathUI?.Invoke();
+        OnSetBestScore?.Invoke();
+        //_deathScreen.SetActive(true);
     }
 }
