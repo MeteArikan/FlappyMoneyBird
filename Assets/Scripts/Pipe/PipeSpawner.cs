@@ -10,10 +10,19 @@ public class PipeSpawner : MonoBehaviour
     [SerializeField] private float _spawnInterval = 1.5f;
     [SerializeField] private float _height = 0.5f;
 
+    private Coroutine _spawnCoroutine;
+
     private void Start()
     {
         SpawnPipes();
+        GameManager.OnShowScoreBoard += StopSpawningPipes;
     }
+
+    private void SpawnPipes()
+    {
+        _spawnCoroutine = StartCoroutine(SpawnPipesCoroutine());
+    }
+
 
     private IEnumerator SpawnPipesCoroutine()
     {
@@ -25,8 +34,18 @@ public class PipeSpawner : MonoBehaviour
 
     }
 
-    private void SpawnPipes()
+
+    private void StopSpawningPipes()
     {
-        StartCoroutine(SpawnPipesCoroutine());
+        if (_spawnCoroutine != null)
+        {
+            StopCoroutine(_spawnCoroutine);
+            _spawnCoroutine = null;
+        }
+    }
+
+
+    private void OnDestroy() {
+        GameManager.OnShowScoreBoard -= StopSpawningPipes;
     }
 }

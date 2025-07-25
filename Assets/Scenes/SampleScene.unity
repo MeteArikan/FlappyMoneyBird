@@ -570,7 +570,11 @@ PrefabInstance:
     - target: {fileID: 1388558993263384617, guid: f9b741da341314893829a687b0ce2755, type: 3}
       propertyPath: '_scoreDigitSpriteList.Array.data[1]'
       value: 
-      objectReference: {fileID: 3103654844608862705, guid: 6cb2371742e354124aa66df29291397b, type: 3}
+      objectReference: {fileID: 7243472915562548880, guid: 6cb2371742e354124aa66df29291397b, type: 3}
+    - target: {fileID: 1388558993263384617, guid: f9b741da341314893829a687b0ce2755, type: 3}
+      propertyPath: '_scoreDigitSpriteList.Array.data[7]'
+      value: 
+      objectReference: {fileID: 3332850698273205949, guid: 6cb2371742e354124aa66df29291397b, type: 3}
     - target: {fileID: 3766014553183177958, guid: f9b741da341314893829a687b0ce2755, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1404,6 +1408,10 @@ PrefabInstance:
       propertyPath: m_ChildAlignment
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1388558993263384617, guid: f9b741da341314893829a687b0ce2755, type: 3}
+      propertyPath: '_scoreDigitSpriteList.Array.data[7]'
+      value: 
+      objectReference: {fileID: 3332850698273205949, guid: 6cb2371742e354124aa66df29291397b, type: 3}
     - target: {fileID: 3766014553183177958, guid: f9b741da341314893829a687b0ce2755, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2237,6 +2245,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 45854049}
     m_Modifications:
+    - target: {fileID: 1142330283174210102, guid: f9b741da341314893829a687b0ce2755, type: 3}
+      propertyPath: m_Spacing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388558993263384617, guid: f9b741da341314893829a687b0ce2755, type: 3}
+      propertyPath: '_scoreDigitSpriteList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2037097137259322841, guid: 6cb2371742e354124aa66df29291397b, type: 3}
+    - target: {fileID: 1388558993263384617, guid: f9b741da341314893829a687b0ce2755, type: 3}
+      propertyPath: '_scoreDigitSpriteList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7243472915562548880, guid: 6cb2371742e354124aa66df29291397b, type: 3}
+    - target: {fileID: 1388558993263384617, guid: f9b741da341314893829a687b0ce2755, type: 3}
+      propertyPath: '_scoreDigitSpriteList.Array.data[7]'
+      value: 
+      objectReference: {fileID: 3332850698273205949, guid: 6cb2371742e354124aa66df29291397b, type: 3}
     - target: {fileID: 3766014553183177958, guid: f9b741da341314893829a687b0ce2755, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2315,7 +2339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3766014553183177958, guid: f9b741da341314893829a687b0ce2755, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -107.952
+      value: -77.8
       objectReference: {fileID: 0}
     - target: {fileID: 3766014553183177958, guid: f9b741da341314893829a687b0ce2755, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

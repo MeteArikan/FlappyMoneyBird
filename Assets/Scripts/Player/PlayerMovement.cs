@@ -4,9 +4,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public event Action OnPlayerDead;
-
-    //[SerializeField] private GameObject _deathScreen;
-    private Animator _playerAnimator;
     private StateController _stateController;
     [SerializeField] private float _jumpSpeed = 3f;
 
@@ -18,10 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        //_deathScreen.SetActive(false);
-        //Time.timeScale = 1f;
         _playerRigidbody = GetComponent<Rigidbody2D>();
-        _playerAnimator = GetComponent<Animator>();
         _stateController = GetComponent<StateController>();
     }
 
@@ -50,10 +44,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("HitObjects") && !_isDead)
         {
             AudioManager.Instance.Play(SoundType.HitSound);
-            //AudioManager.Instance.Play(SoundType.DieSound);
-
-
-
             BirdFall();
 
         }
@@ -63,16 +53,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _isDead = true;
         _stateController.ChangePlayerState(PlayerState.Death);
-        //_playerAnimator.SetBool("IsDead", true);
         OnPlayerDead?.Invoke();
         AudioManager.Instance.Play(SoundType.DieSound);
         GameManager.Instance.OnGameOver();
     }
-    
-
-    // private void PlayDieSound()
-    // {
-    //     AudioManager.Instance.Play(SoundType.DieSound);
-    // }
 
 }
