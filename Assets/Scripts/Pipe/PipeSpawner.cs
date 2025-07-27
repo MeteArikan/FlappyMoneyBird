@@ -15,7 +15,7 @@ public class PipeSpawner : MonoBehaviour
     private void Start()
     {
         SpawnPipes();
-        GameManager.OnShowScoreBoard += StopSpawningPipes;
+        GameManager.OnAfterGameOver += StopSpawningPipes;
     }
 
     private void SpawnPipes()
@@ -46,6 +46,6 @@ public class PipeSpawner : MonoBehaviour
 
 
     private void OnDestroy() {
-        GameManager.OnShowScoreBoard -= StopSpawningPipes;
+        GameManager.OnAfterGameOver-= StopSpawningPipes;
     }
 }

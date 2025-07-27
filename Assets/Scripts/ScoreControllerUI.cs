@@ -30,10 +30,10 @@ public class ScoreController : MonoBehaviour
         // Remove old digits
         foreach (var digitObj in _scoreDigits)
             Destroy(digitObj);
-        CaptureScore(score);
+        ReplaceNewScoreDigits(score);
     }
 
-    private void CaptureScore(int score)
+    private void ReplaceNewScoreDigits(int score)
     {
         string scoreStr = score.ToString();
         _scoreDigits = new GameObject[scoreStr.Length];

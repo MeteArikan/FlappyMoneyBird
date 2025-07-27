@@ -9,18 +9,18 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.OnShowDeathUI += ShowDeathScreen;
+        GameManager.OnAfterGameOver += ShowDeathScreen;
         _deathScreenRect = _deathScreenUI.gameObject.GetComponent<RectTransform>();
     }
 
     private void ShowDeathScreen()
     {
-        _deathScreenRect.anchoredPosition += new Vector2(0, 3000);
+        //_deathScreenRect.anchoredPosition += new Vector2(0, 3000);
         _scoreController.gameObject.SetActive(false);
         
     }
     
     private void OnDestroy() {
-        GameManager.OnShowDeathUI -= ShowDeathScreen;
+        GameManager.OnAfterGameOver -= ShowDeathScreen;
     }
 }

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public static Action<int> OnSetScoreUI;
     public static Action OnShowScoreBoard;
-    public static Action OnShowDeathUI;
+    public static Action OnAfterGameOver;
 
     private int _score;
 
@@ -61,7 +61,9 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("highScore", _score);
         }
-        Invoke(nameof(StopTime), 0.2f);
+        OnAfterGameOver?.Invoke();
+        Invoke(nameof(ShowScoreBoard), 0.5f);
+        
         
     }
 
@@ -75,10 +77,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void StopTime()
+    public void ShowScoreBoard()
     {
         //Time.timeScale = 0f;
-        OnShowDeathUI?.Invoke();
         OnShowScoreBoard?.Invoke();
     }
 }
