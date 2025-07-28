@@ -10,10 +10,14 @@ public class GameManager : MonoBehaviour
     public static Action<int> OnSetScoreUI;
     public static Action OnShowScoreBoard;
     public static Action OnAfterGameOver;
+    public static Action OnGameMenuOpened;
+
 
     private int _score;
-
+    private bool _isGameStarted = false;
+    
     public int GetScore => _score;
+    //public bool IsGameStarted => _isGameStarted;
 
     private void Awake()
     {
@@ -40,14 +44,36 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        OnGameStart();
+        OpenMenu();
     }
+
+    private void OpenMenu()
+    {
+        Time.timeScale = 0f;
+        OnGameMenuOpened?.Invoke(); // Invoke the new OnGamePaused event
+        _isGameStarted = false;
+        Debug.Log("Menu screen is opened"); // For debugging
+    }
+
     public void OnGameStart()
     {
         Time.timeScale = 1f;
         _score = 0;
         OnSetScoreUI?.Invoke(_score);
+        _isGameStarted = true;
+        Debug.Log("Game Started");
     }
+
+
+    private void Update()
+    {
+        // Check for Space key press only if the game hasn't started yet
+        if (!_isGameStarted && Input.GetKeyDown(KeyCode.Space))
+        {
+            OnGameStart();
+        }
+    }
+
 
     public void IncreaseScore()
     {

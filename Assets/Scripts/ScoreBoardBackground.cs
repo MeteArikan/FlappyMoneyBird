@@ -20,9 +20,11 @@ public class ScoreBoardBackground : MonoBehaviour
     private void Start()
     {
         _bestScoreController = _bestScoreArea.GetComponentInChildren<ScoreController>();
+        _bestScoreController.UpdateScoreDisplay(0); // Initialize with 0
         _bestScoreController.enabled = false;
 
         _scoreController = _scoreArea.GetComponentInChildren<ScoreController>();
+        _scoreController.UpdateScoreDisplay(0); // Initialize with 0
         _scoreController.enabled = false;
     }
 
