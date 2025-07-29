@@ -10,11 +10,22 @@ public class PlatformAnimationController : MonoBehaviour
     {
         _platformAnimator = GetComponent<Animator>();
     }
-
-    private void Start()
+    private void OnEnable()
     {
-        // _playerController.OnPlayerDead += PlayerController_OnPlayerDead;
+        _platformAnimator.enabled = false;
         GameManager.OnAfterGameOver += GameManager_OnGameOverEvent;
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
+    }
+    private void OnDisable()
+    {
+        GameManager.OnAfterGameOver -= GameManager_OnGameOverEvent;
+        GameManager.OnGameStarted -= GameManager_OnGameStarted;
+    }
+
+
+    private void GameManager_OnGameStarted()
+    {
+        _platformAnimator.enabled = true;
     }
 
     private void GameManager_OnGameOverEvent()
@@ -22,12 +33,5 @@ public class PlatformAnimationController : MonoBehaviour
         _platformAnimator.enabled = false;
     }
 
-    private void PlayerController_OnPlayerDead()
-    {
-        _platformAnimator.enabled = false;
-    }
-    
-    private void OnDestroy() {
-        GameManager.OnAfterGameOver -= GameManager_OnGameOverEvent;
-    }
+
 }

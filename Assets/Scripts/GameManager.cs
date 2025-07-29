@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static Action OnShowScoreBoard;
     public static Action OnAfterGameOver;
     public static Action OnGameMenuOpened;
+    public static Action OnGameStarted;
 
 
     private int _score;
@@ -34,7 +35,9 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Time.timeScale = 0f;
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
     }
 
     private void OnDisable()
@@ -49,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void OpenMenu()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         OnGameMenuOpened?.Invoke(); // Invoke the new OnGamePaused event
         _isGameStarted = false;
         Debug.Log("Menu screen is opened"); // For debugging
@@ -59,6 +62,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         _score = 0;
+        OnGameStarted?.Invoke();
         OnSetScoreUI?.Invoke(_score);
         _isGameStarted = true;
         Debug.Log("Game Started");
