@@ -10,6 +10,7 @@ public class ScoreBoardBackground : MonoBehaviour
     [SerializeField] private RectTransform _bestScoreArea;
     [SerializeField] private float _moveAmount = 30f; // Amount to move left per digit increase
 
+    public MedalManager medalManager;
     private ScoreController _bestScoreController;
     private ScoreController _scoreController;
 
@@ -104,9 +105,15 @@ public class ScoreBoardBackground : MonoBehaviour
             _scoreController.UpdateScoreDisplay(current);
             MoveScoreAreaToLeft(current);
         }
+        medalManager.ShowMedal();
+        Invoke(nameof(ActivateReplayButton), 0.2f);
+
+    }
+
+    private void ActivateReplayButton()
+    {
         OnActivateReplayButton?.Invoke();
     }
-    
 
     private void MoveScoreAreaToLeft(int score)
     {
