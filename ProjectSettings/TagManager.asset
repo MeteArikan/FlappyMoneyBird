@@ -8,6 +8,7 @@ TagManager:
   - Scoring
   - ScoreText
   - HitObjects
+  - Platform
   layers:
   - Default
   - TransparentFX

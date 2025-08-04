@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SilverMedal
   m_EditorClassIdentifier: 
   _medalSprite: {fileID: 1643155221146841879, guid: 6cb2371742e354124aa66df29291397b, type: 3}
-  _medalMinScore: 2
+  _medalMinScore: 20

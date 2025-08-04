@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,10 +15,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _playerRigidbody;
     private bool _isDead;
+    private bool _queuedFly = false;
 
     public bool IsDead => _isDead;
 
-    private void Awake() {
+    private void Awake()
+    {
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _stateController = GetComponent<StateController>();
     }
@@ -43,20 +46,45 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void Update()
-    {
+    // void Update()
+    // {
 
-        if (Input.GetKeyDown(KeyCode.Space) && !_isDead)
+    //     if (!_isDead && Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         BirdFly();
+    //         // _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
+    //         // AudioManager.Instance.Play(SoundType.FlySound);
+    //     }
+    // }
+
+    void Update()
+{
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+        _queuedFly = true;
+    }
+}
+
+
+    void FixedUpdate()
+    {
+        if (_queuedFly && !_isDead)
         {
             BirdFly();
-            // _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
-            // AudioManager.Instance.Play(SoundType.FlySound);
+            _queuedFly = false;
         }
+        else
+        {
+        _queuedFly = false;
+        }   
     }
+
+
 
     private void BirdFly()
     {
         _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
+        _playerRigidbody.linearDamping = 0.5f;
         AudioManager.Instance.Play(SoundType.FlySound);
     }
 
@@ -83,15 +111,40 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("HitObjects") && !_isDead)
         {
             AudioManager.Instance.Play(SoundType.HitSound);
-            BirdFall();
+            _isDead = true;
+            BirdDeath();
 
         }
+        if (other.gameObject.CompareTag("Platform") && !_isDead)
+        {
+            AudioManager.Instance.Play(SoundType.HitSound);
+            _isDead = true;
+            BirdDeath();
+
+        }
+        if (other.gameObject.CompareTag("Platform") && _isDead)
+        {
+            _playerRigidbody.simulated = false;
+
+        }
+        
+
+        // if (other.gameObject.CompareTag("Platform") && !_isDead)
+        // {
+        //     AudioManager.Instance.Play(SoundType.HitSound);
+        //     BirdFall();
+
+        // }
     }
 
-    private void BirdFall()
+    private void BirdDeath()
     {
-        _isDead = true;
-        //canFly = false; // Allow player input
+
+        //_playerRigidbody.simulated = false;
+        //_playerRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        //_playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
+        _playerRigidbody.linearVelocity = Vector2.zero;
+        //transform.DOMoveY(-6f, 1f); // Stop physics interactions
         _stateController.ChangePlayerState(PlayerState.Death);
         OnPlayerDead?.Invoke();
         AudioManager.Instance.Play(SoundType.DieSound);
