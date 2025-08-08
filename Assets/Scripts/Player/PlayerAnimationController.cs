@@ -3,48 +3,78 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField] private Animator _playerAnimator;
-    private StateController _stateController;
+    //[SerializeField] private Animator _platformAnimator;
+
+    private PlayerMovement _playerController;
+    //private StateController _stateController;
+
 
     private void Awake()
     {
-        _stateController = GetComponent<StateController>();
+        _playerController = GetComponent<PlayerMovement>();
+        //_stateController = GetComponent<StateController>();
     }
 
-    private void Update()
+    private void Start()
     {
-        // This is the main animation loop. It runs every frame.
-        SetPlayerAnimations();
+        _playerController.OnPlayerDead += PlayerController_OnPlayerDead;
     }
 
-    private void SetPlayerAnimations()
+
+    // private void Update()
+    // {
+    //     if (GameManager.Instance.GetCurrentGameState() != GameState.Play
+    //     && GameManager.Instance.GetCurrentGameState() != GameState.Resume)
+    //     {
+    //         return;
+    //     }
+    //     SetPlayerAnimations();
+    // }
+
+
+    private void PlayerController_OnPlayerDead()
     {
-        var currentState = _stateController.GetPlayerState();
-
-        switch (currentState)
-        {
-            // case PlayerState.Start:
-            //     // Animation for the waiting state
-            //     _playerAnimator.SetBool("IsFly", false);
-            //     _playerAnimator.SetBool("IsDead", false);
-            //     break;
-            
-            case PlayerState.Fly:
-                // Bird just jumped
-                _playerAnimator.SetBool("IsJump", true);
-                _playerAnimator.SetBool("IsDead", false);
-                break;
-
-            case PlayerState.Fall:
-                // Bird is falling down
-                _playerAnimator.SetBool("IsJump", false);
-                _playerAnimator.SetBool("IsDead", false);
-                break;
-
-            case PlayerState.Death:
-                // Bird has died
-                _playerAnimator.SetBool("IsDead", true);
-                _playerAnimator.SetBool("IsJump", false);
-                break;
-        }
+        _playerAnimator.SetBool("IsDead", true);
+        
+        //Invoke(nameof(ResetJumpingAnimation), 0.5f);
     }
+
+    // private void ResetJumpingAnimation()
+    // {
+    //     _playerAnimator.SetBool(Consts.PlayerAnimations.IS_JUMPING, false);
+    // }
+    
+
+
+
+
+
+    // private void SetPlayerAnimations()
+    // {
+    //     var currentState = _stateController.GetPlayerState();
+
+    //     switch (currentState)
+    //     {
+    //         case PlayerState.Idle:
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_MOVING, false);
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_SLIDING, false);
+    //             break;
+
+    //         case PlayerState.Move:
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_MOVING, true);
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_SLIDING, false);
+    //             break;
+
+    //         case PlayerState.SlideIdle:
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_SLIDING_ACTIVE, false);
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_SLIDING, true);
+    //             break;
+
+    //         case PlayerState.Slide:
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_SLIDING_ACTIVE, true);
+    //             _playerAnimator.SetBool(Consts.PlayerAnimations.IS_SLIDING, true);
+    //             break;
+
+    //     }
+    // }
 }
