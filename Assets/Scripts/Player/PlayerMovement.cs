@@ -14,8 +14,10 @@ public class PlayerMovement : MonoBehaviour
 
 
     private Rigidbody2D _playerRigidbody;
+    private Animator _playerAnimator;
+    private bool _isJumpTriggered = false;
     private bool _isDead;
-    private bool _queuedFly = false;
+    //private bool _queuedFly = false;
 
     public bool IsDead => _isDead;
 
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _stateController = GetComponent<StateController>();
+        _playerAnimator = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -58,34 +61,51 @@ public class PlayerMovement : MonoBehaviour
     // }
 
     void Update()
-{
-    if (Input.GetKeyDown(KeyCode.Space))
     {
-        _queuedFly = true;
-    }
-}
-
-
-    void FixedUpdate()
-    {
-        if (_queuedFly && !_isDead)
+        if (Input.GetKeyDown(KeyCode.Space) && !_isDead)
         {
+            //_queuedFly = true;
             BirdFly();
-            _queuedFly = false;
         }
-        else
+        if (_playerRigidbody.linearVelocityY <= 0)
         {
-        _queuedFly = false;
-        }   
+            _playerAnimator.SetBool("IsJumping", false);
+        }
     }
+
+
+
+    // void FixedUpdate()
+    // {
+    //     if (_queuedFly && !_isDead)
+    //     {
+    //         BirdFly();
+    //         _queuedFly = false;
+    //     }
+    //     else
+    //     {
+    //     _queuedFly = false;
+    //     }   
+    // }
 
 
 
     private void BirdFly()
     {
+
+        //Invoke(nameof(DisableJumpTrigger), 0.32f); // Disable the jump trigger after a short delay
+
         _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
         _playerRigidbody.linearDamping = 0.5f;
         AudioManager.Instance.Play(SoundType.FlySound);
+        _playerAnimator.SetBool("IsJumping", true);
+        
+    }
+
+    private void DisableJumpTrigger()
+    {
+        _isJumpTriggered = false;
+  
     }
 
     private void GameManager_OnGameStarted()

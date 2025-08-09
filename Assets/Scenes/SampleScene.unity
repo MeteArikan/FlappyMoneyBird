@@ -1779,7 +1779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pipesPrefab: {fileID: 7657590185685315141, guid: e56d209c740ba4741be232c2e6e5b4d3, type: 3}
   _spawnInterval: 2
-  _height: 3.5
+  _height: 4
 --- !u!4 &1081308091
 Transform:
   m_ObjectHideFlags: 0
@@ -2056,9 +2056,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 2
+  m_LinearDamping: 4
   m_AngularDamping: 2
-  m_GravityScale: 5.7
+  m_GravityScale: 5.5
   m_Material: {fileID: 6200000, guid: c6934a7cee91944e9ad0141de9dc251f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -2119,7 +2119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpSpeed: 16
-  initialGravityScale: 1
+  initialGravityScale: 0
 --- !u!212 &1489227160
 SpriteRenderer:
   m_ObjectHideFlags: 0
