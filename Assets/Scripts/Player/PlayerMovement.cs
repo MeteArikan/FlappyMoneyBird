@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _playerRigidbody;
     private Animator _playerAnimator;
-    private bool _isJumpTriggered = false;
+    //private bool _isJumpTriggered = false;
     private bool _isDead;
     //private bool _queuedFly = false;
 
@@ -102,11 +102,11 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    private void DisableJumpTrigger()
-    {
-        _isJumpTriggered = false;
+    // private void DisableJumpTrigger()
+    // {
+    //     _isJumpTriggered = false;
   
-    }
+    // }
 
     private void GameManager_OnGameStarted()
     {

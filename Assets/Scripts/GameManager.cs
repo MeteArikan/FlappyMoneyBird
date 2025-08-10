@@ -16,8 +16,10 @@ public class GameManager : MonoBehaviour
 
     private int _score;
     private bool _isGameStarted = false;
+    private bool _isNewBestScore = false;
     
     public int GetScore => _score;
+    public bool IsNewBestScore => _isNewBestScore;
     //public bool IsGameStarted => _isGameStarted;
 
     private void Awake()
@@ -35,7 +37,8 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        PlayerPrefs.SetInt("highScore", 0);
         SceneManager.sceneLoaded += OnSceneLoaded;
         
     }
@@ -62,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         _score = 0;
+        _isNewBestScore = false;
         OnGameStarted?.Invoke();
         OnSetScoreUI?.Invoke(_score);
         _isGameStarted = true;
@@ -81,7 +85,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore()
     {
-        _score++;
+        _score+=90;
         OnSetScoreUI?.Invoke(_score);
     }
 
@@ -90,6 +94,7 @@ public class GameManager : MonoBehaviour
         if (_score > PlayerPrefs.GetInt("highScore"))
         {
             PlayerPrefs.SetInt("highScore", _score);
+            _isNewBestScore = true;
         }
         OnAfterGameOver?.Invoke();
         Invoke(nameof(ShowScoreBoard), 0.5f);

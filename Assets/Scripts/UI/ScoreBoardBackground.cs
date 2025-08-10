@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreBoardBackground : MonoBehaviour
 {
@@ -10,34 +11,45 @@ public class ScoreBoardBackground : MonoBehaviour
     [SerializeField] private RectTransform _bestScoreArea;
     [SerializeField] private float _moveAmount = 30f; // Amount to move left per digit increase
 
+
     public MedalManager medalManager;
+    public Image newBestScoreIcon;
     private ScoreController _bestScoreController;
     private ScoreController _scoreController;
 
     private int _lastDigitCount = 2;
     const float TOTAL_DURATION = 0.4f;
 
+    private Vector2 _bestScoreStartPos; 
+    private int _bestScoreLastDigitCount;
+
+
 
     private void Start()
     {
+        // store baseline position and initial digit count
+        _bestScoreStartPos = _bestScoreArea.anchoredPosition;
+        _bestScoreLastDigitCount = GameManager.Instance.GetHighScore().ToString().Length;
         _bestScoreController = _bestScoreArea.GetComponentInChildren<ScoreController>();
-        _bestScoreController.UpdateScoreDisplay(0); // Initialize with 0
+        UpdateBestScoreDisplay(); // Initialize with current highscore
         _bestScoreController.enabled = false;
 
         _scoreController = _scoreArea.GetComponentInChildren<ScoreController>();
         _scoreController.UpdateScoreDisplay(0); // Initialize with 0
         _scoreController.enabled = false;
+
+
     }
 
     private void OnEnable()
     {
-        GameManager.OnAfterGameOver += UpdateBestScoreDisplay;  // for best score display
+        //GameManager.OnAfterGameOver += UpdateBestScoreDisplay;  // for best score display
         DeathScreenUI.OnPrepareScoreCounter += PrepareCurrentScoreUI; // for current score display
     }
 
     private void OnDisable()
     {
-        GameManager.OnAfterGameOver -= UpdateBestScoreDisplay;  // for best score display
+        //GameManager.OnAfterGameOver -= UpdateBestScoreDisplay;  // for best score display
         DeathScreenUI.OnPrepareScoreCounter -= PrepareCurrentScoreUI; // for current score display
 
     }
@@ -55,14 +67,25 @@ public class ScoreBoardBackground : MonoBehaviour
         //PrepareCurrentScoreDisplay();
     }
 
+    // private void SetBestScoreUI(int score)
+    // {
+    //     int digitCount = score.ToString().Length;
+    //     if (digitCount > 2)
+    //     {
+    //         // Move left by _moveAmount for each new digit
+    //         _bestScoreArea.anchoredPosition += new Vector2(-_moveAmount * (digitCount - 1), 0);
+    //     }
+    // }
+
     private void SetBestScoreUI(int score)
     {
-        int digitCount = score.ToString().Length;
-        if (digitCount > 2)
-        {
-            // Move left by _moveAmount for each new digit
-            _bestScoreArea.anchoredPosition += new Vector2(-_moveAmount * (digitCount - 1), 0);
-        }
+    int digitCount = score.ToString().Length;
+
+    int offsetCount = digitCount <= 2 ? 0 : digitCount - 1;
+    _bestScoreArea.anchoredPosition = _bestScoreStartPos + new Vector2(-_moveAmount * offsetCount, 0);
+
+    // keep record if you need it elsewhere
+    _bestScoreLastDigitCount = digitCount;
     }
 
 
@@ -88,7 +111,7 @@ public class ScoreBoardBackground : MonoBehaviour
             StartCoroutine(ScoreCounterUICoroutine(score, stepTime, increment));
         else
         {
-            OnActivateReplayButton?.Invoke();   // No score to count, just invoke the event
+            ActivateReplayButton();   // No score to count, just activate the replay button
         }
     }
 
@@ -105,14 +128,8 @@ public class ScoreBoardBackground : MonoBehaviour
             _scoreController.UpdateScoreDisplay(current);
             MoveScoreAreaToLeft(current);
         }
-        medalManager.ShowMedal();
-        Invoke(nameof(ActivateReplayButton), 0.2f);
 
-    }
-
-    private void ActivateReplayButton()
-    {
-        OnActivateReplayButton?.Invoke();
+        AfterScoreCountingFinished();
     }
 
     private void MoveScoreAreaToLeft(int score)
@@ -131,6 +148,22 @@ public class ScoreBoardBackground : MonoBehaviour
             }
             _lastDigitCount = digitCount;
         }
+    }
+
+    private void ActivateReplayButton()
+    {
+        OnActivateReplayButton?.Invoke();
+    }
+
+    private void AfterScoreCountingFinished()
+    {
+        if (GameManager.Instance.IsNewBestScore)
+        {
+            UpdateBestScoreDisplay();
+            newBestScoreIcon.gameObject.SetActive(true);
+        }
+        medalManager.ShowMedal();
+        Invoke(nameof(ActivateReplayButton), 0.2f);
     }
 
 
