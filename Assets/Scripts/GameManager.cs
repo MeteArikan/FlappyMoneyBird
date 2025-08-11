@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         AudioManager.Instance.Play(SoundType.TransitionSound);
-        SceneManager.LoadScene("DefaultMode");
+        SceneManager.LoadScene("SampleScene");
     }
 
 
