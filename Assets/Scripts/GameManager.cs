@@ -39,13 +39,21 @@ public class GameManager : MonoBehaviour
     {
         //Time.timeScale = 0f;
         PlayerPrefs.SetInt("highScore", 0);
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.activeSceneChanged += OnNewSceneLoaded;
         
+    }
+
+    private void OnNewSceneLoaded(Scene arg0, Scene arg1)
+    {
+        OpenMenu();
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.activeSceneChanged -= OnNewSceneLoaded;
+
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -85,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore()
     {
-        _score+=90;
+        _score++;
         OnSetScoreUI?.Invoke(_score);
     }
 
@@ -108,7 +116,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         AudioManager.Instance.Play(SoundType.TransitionSound);
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("DefaultMode");
     }
 
 
