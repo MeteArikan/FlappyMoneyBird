@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private int _score;
     private bool _isGameStarted = false;
     private bool _isNewBestScore = false;
+    private GameMode _currentGameMode = GameMode.DefaultMode;
     
     public int GetScore => _score;
     public bool IsNewBestScore => _isNewBestScore;
@@ -44,16 +45,22 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void OnNewSceneLoaded(Scene arg0, Scene arg1)
-    {
-        OpenMenu();
-    }
+
 
     private void OnDisable()
     {
         //SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.activeSceneChanged -= OnNewSceneLoaded;
 
+    }
+
+    private void OnNewSceneLoaded(Scene arg0, Scene arg1)
+    {
+        _currentGameMode = GameModeController.Instance.GetGameMode();
+
+        // Log the current game mode to the console.
+        Debug.Log("Current Game Mode: " + _currentGameMode);
+        OpenMenu();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
