@@ -1,16 +1,21 @@
+using System;
 using UnityEngine;
 
 public class MenuScreenUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject _navBar;
+    private void OnEnable()
     {
-        
+        GameManager.OnGameStarted += HideNavBar;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        GameManager.OnGameStarted -= HideNavBar;
+    }
+
+    private void HideNavBar()
+    {
+        _navBar.SetActive(false);
     }
 }

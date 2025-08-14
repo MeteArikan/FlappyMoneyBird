@@ -123,7 +123,19 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         AudioManager.Instance.Play(SoundType.TransitionSound);
-        SceneManager.LoadScene("DefaultMode");
+        //SceneManager.LoadScene("DefaultMode");
+        SceneManager.LoadScene(_currentGameMode.ToString());
+    }
+
+    public void NavigateToGameMode(GameMode gameMode)
+    {
+        if(gameMode == _currentGameMode)
+        {
+            Debug.Log("Already in the selected game mode: " + gameMode);
+            return; // No need to change scene if already in the selected game mode
+        }
+        GameModeController.Instance.ChangeGameMode(gameMode);
+        SceneManager.LoadScene(gameMode.ToString());
     }
 
 
