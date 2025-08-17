@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pipesPrefab: {fileID: 7657590185685315141, guid: e56d209c740ba4741be232c2e6e5b4d3, type: 3}
   _spawnInterval: 2.4
-  _height: 4
+  _height: 3.8
 --- !u!222 &4826940997604059849
 CanvasRenderer:
   m_ObjectHideFlags: 0

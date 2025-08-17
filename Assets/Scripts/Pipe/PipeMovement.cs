@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PipeMovement : MonoBehaviour
@@ -12,6 +13,10 @@ public class PipeMovement : MonoBehaviour
     private BoxCollider2D _scoringCollider;
     private bool _collidersDisabled = false;
 
+    private bool _isGoingUp;
+    private bool _isOscillating = true;
+    private Vector3 _verticalMoveDirection = Vector3.zero;
+
     private void Start()
     {
         GameObject player = GameObject.FindWithTag("Player");
@@ -23,6 +28,26 @@ public class PipeMovement : MonoBehaviour
             _playerTransform = player.transform;
             _playerMovement = player.GetComponent<PlayerMovement>();
 
+        }
+        //_isGoingUp = Random.value > 0.5f;
+        if (GameModeController.Instance.GetGameMode() == GameMode.HardMode)
+        {
+            if (transform.position.y < -1.5f)
+            {
+                _isGoingUp = true;
+            }
+            else if (transform.position.y > 1.5f)
+            {
+                _isGoingUp = false;
+                _isOscillating = false;
+
+            }
+            else
+            {
+                _isGoingUp = UnityEngine.Random.value > 0.5f; // Randomly decide if the pipe is going up or down
+            }
+            
+            _verticalMoveDirection = _isGoingUp ? Vector3.up : Vector3.down;
         }
     }
 
@@ -38,6 +63,30 @@ public class PipeMovement : MonoBehaviour
         else if (!_playerMovement.IsDead)
         {
             transform.position += _pipeSpeed * Time.deltaTime * Vector3.left;
+
+            if (GameModeController.Instance.GetGameMode() == GameMode.HardMode)
+            {
+
+                // if (_isGoingUp)
+                // {
+                //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.up * 0.3f; // Add some vertical movement in Hard Mode
+                // }
+                // else
+                // {
+                //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.down * 0.3f; // Add some vertical movement in Hard Mode
+                // }
+
+                //transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.4f; // Add some vertical movement in Hard Mode
+                if (_isOscillating)
+                {
+                    transform.position += _pipeSpeed * 0.7f * Mathf.Sin(Time.time * 2.5f) * Time.deltaTime * _verticalMoveDirection;
+                }
+                else
+                {
+                    transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.4f;
+                }
+                
+            }
         }
 
         if (_playerTransform != null && transform.position.x < _playerTransform.position.x - _destroyOffset)

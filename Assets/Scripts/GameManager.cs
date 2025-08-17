@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         //Time.timeScale = 0f;
-        PlayerPrefs.SetInt("highScore", 0);
+        //PlayerPrefs.SetInt("highScore", 0);
         //SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.activeSceneChanged += OnNewSceneLoaded;
         
