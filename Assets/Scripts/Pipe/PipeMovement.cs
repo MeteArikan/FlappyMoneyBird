@@ -32,24 +32,11 @@ public class PipeMovement : MonoBehaviour
         //_isGoingUp = Random.value > 0.5f;
         if (GameModeController.Instance.GetGameMode() == GameMode.HardMode)
         {
-            if (transform.position.y < -1.5f)
-            {
-                _isGoingUp = true;
-            }
-            else if (transform.position.y > 1.5f)
-            {
-                _isGoingUp = false;
-                _isOscillating = false;
-
-            }
-            else
-            {
-                _isGoingUp = UnityEngine.Random.value > 0.5f; // Randomly decide if the pipe is going up or down
-            }
-            
-            _verticalMoveDirection = _isGoingUp ? Vector3.up : Vector3.down;
+            ChooseVerticalMoveDirection();
         }
     }
+
+
 
     void Update()
     {
@@ -66,32 +53,56 @@ public class PipeMovement : MonoBehaviour
 
             if (GameModeController.Instance.GetGameMode() == GameMode.HardMode)
             {
-
-                // if (_isGoingUp)
-                // {
-                //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.up * 0.3f; // Add some vertical movement in Hard Mode
-                // }
-                // else
-                // {
-                //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.down * 0.3f; // Add some vertical movement in Hard Mode
-                // }
-
-                //transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.4f; // Add some vertical movement in Hard Mode
-                if (_isOscillating)
-                {
-                    transform.position += _pipeSpeed * 0.7f * Mathf.Sin(Time.time * 2.5f) * Time.deltaTime * _verticalMoveDirection;
-                }
-                else
-                {
-                    transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.4f;
-                }
-                
+                VerticalMovement();
             }
         }
 
         if (_playerTransform != null && transform.position.x < _playerTransform.position.x - _destroyOffset)
         {
             Destroy(gameObject);
+        }
+    }
+
+
+    private void ChooseVerticalMoveDirection()
+    {
+        if (transform.position.y < -1.5f)
+        {
+            _isGoingUp = true;
+        }
+        else if (transform.position.y > 1.5f)
+        {
+            _isGoingUp = false;
+            _isOscillating = false;
+
+        }
+        else
+        {
+            _isGoingUp = UnityEngine.Random.value > 0.5f; // Randomly decide if the pipe is going up or down
+        }
+
+        _verticalMoveDirection = _isGoingUp ? Vector3.up : Vector3.down;
+    }
+
+    private void VerticalMovement()
+    {
+        // if (_isGoingUp)
+        // {
+        //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.up * 0.3f; // Add some vertical movement in Hard Mode
+        // }
+        // else
+        // {
+        //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.down * 0.3f; // Add some vertical movement in Hard Mode
+        // }
+
+        //transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.4f; // Add some vertical movement in Hard Mode
+        if (_isOscillating)
+        {
+            transform.position += _pipeSpeed * 0.7f * Mathf.Sin(Time.time * 2.5f) * Time.deltaTime * _verticalMoveDirection;
+        }
+        else
+        {
+            transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.5f;
         }
     }
 }
