@@ -9,6 +9,7 @@ TagManager:
   - ScoreText
   - HitObjects
   - Platform
+  - Money
   layers:
   - Default
   - TransparentFX

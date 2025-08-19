@@ -124,6 +124,10 @@ public class PlayerMovement : MonoBehaviour
             AudioManager.Instance.Play(SoundType.PointSound);
 
         }
+        if (other.gameObject.CompareTag("Money") && !_isDead)
+        {
+            GameManager.Instance.IncreaseComboCount();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

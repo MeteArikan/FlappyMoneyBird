@@ -12,15 +12,22 @@ public class GameManager : MonoBehaviour
     public static Action OnAfterGameOver;
     public static Action OnGameMenuOpened;
     public static Action OnGameStarted;
+    public static Action OnComboCountUpdated;
 
 
     private int _score;
+    private int _comboCount = 0;
+    private int _maxComboCount = 0;
     private bool _isGameStarted = false;
     private bool _isNewBestScore = false;
     private GameMode _currentGameMode = GameMode.DefaultMode;
     
     public int GetScore => _score;
     public bool IsNewBestScore => _isNewBestScore;
+
+
+    public int GetComboCount => _comboCount;
+    public int GetMaxComboCount => _maxComboCount;
     //public bool IsGameStarted => _isGameStarted;
 
     private void Awake()
@@ -84,6 +91,14 @@ public class GameManager : MonoBehaviour
         OnGameStarted?.Invoke();
         OnSetScoreUI?.Invoke(_score);
         _isGameStarted = true;
+
+        if (GameModeController.Instance.GetGameMode() == GameMode.MoneyMode)
+        {
+            _comboCount = 0;
+            _maxComboCount = 0;
+            OnComboCountUpdated?.Invoke();
+        }
+
         Debug.Log("Game Started");
     }
 
@@ -103,6 +118,24 @@ public class GameManager : MonoBehaviour
         _score++;
         OnSetScoreUI?.Invoke(_score);
     }
+    
+
+    // Money mode specific method : money combo counter
+    public void IncreaseComboCount()
+    {
+        _comboCount++;
+        OnComboCountUpdated?.Invoke();
+        if (_comboCount > _maxComboCount)
+        {
+            _maxComboCount = _comboCount;
+        }
+    }
+    // Money mode specific method : RESET money combo counter
+    public void ResetComboCount()
+    {
+        _comboCount = 0;
+        OnComboCountUpdated?.Invoke();
+    }
 
     public void OnGameOver()
     {
@@ -113,8 +146,8 @@ public class GameManager : MonoBehaviour
         }
         OnAfterGameOver?.Invoke();
         Invoke(nameof(ShowScoreBoard), 0.5f);
-        
-        
+
+
     }
 
     public int GetHighScore() => PlayerPrefs.GetInt("highScore");
