@@ -20,7 +20,7 @@ public class ScoreBoardBackground : MonoBehaviour
     private int _lastDigitCount = 2;
     const float TOTAL_DURATION = 0.4f;
 
-    private Vector2 _bestScoreStartPos; 
+    private Vector2 _bestScoreStartPos;
     private int _bestScoreLastDigitCount;
 
 
@@ -79,13 +79,13 @@ public class ScoreBoardBackground : MonoBehaviour
 
     private void SetBestScoreUI(int score)
     {
-    int digitCount = score.ToString().Length;
+        int digitCount = score.ToString().Length;
 
-    int offsetCount = digitCount <= 2 ? 0 : digitCount - 1;
-    _bestScoreArea.anchoredPosition = _bestScoreStartPos + new Vector2(-_moveAmount * offsetCount, 0);
+        int offsetCount = digitCount <= 2 ? 0 : digitCount - 1;
+        _bestScoreArea.anchoredPosition = _bestScoreStartPos + new Vector2(-_moveAmount * offsetCount, 0);
 
-    // keep record if you need it elsewhere
-    _bestScoreLastDigitCount = digitCount;
+        // keep record if you need it elsewhere
+        _bestScoreLastDigitCount = digitCount;
     }
 
 
@@ -155,16 +155,76 @@ public class ScoreBoardBackground : MonoBehaviour
         OnActivateReplayButton?.Invoke();
     }
 
+    // private void AfterScoreCountingFinished()
+    // {
+    //     // if money mode, add the bonus points to the score
+    //     if (GameManager.Instance.IsNewBestScore)
+    //     {
+    //         UpdateBestScoreDisplay();
+    //         newBestScoreIcon.gameObject.SetActive(true);
+    //     }
+    //     medalManager.ShowMedal();
+    //     Invoke(nameof(ActivateReplayButton), 0.2f);
+    // }
+    
+
     private void AfterScoreCountingFinished()
-    {
-        if (GameManager.Instance.IsNewBestScore)
+{
+    int bonus = GameManager.Instance.GetMaxComboCount * 3;
+    if (GameModeController.Instance.GetGameMode() == GameMode.MoneyMode && bonus > 0)
         {
-            UpdateBestScoreDisplay();
-            newBestScoreIcon.gameObject.SetActive(true);
+            // Calculate bonus
+            //int bonus = GameManager.Instance.GetMaxComboCount * 3;
+            int originalScore = GameManager.Instance.GetScore;
+            int newScore = originalScore + bonus;
+            GameManager.Instance.CheckHighscore(newScore); // Check if new score is a high score
+
+            // Optionally, show a bonus text here
+
+            // Animate bonus after a short delay
+            StartCoroutine(AnimateBonusScore(originalScore, newScore, bonus));
         }
-        medalManager.ShowMedal();
-        Invoke(nameof(ActivateReplayButton), 0.2f);
+        else
+        {
+            // Normal flow
+            CheckAndShowBestScore();
+        }
+}
+
+private IEnumerator AnimateBonusScore(int fromScore, int toScore, int bonus)
+{
+    yield return new WaitForSeconds(0.5f); // Delay before bonus counting
+
+    // Optionally, show a "Bonus +X" UI here
+
+    // Animate score from fromScore to toScore
+    int increment = (toScore - fromScore) > 100 ? 10 : 1;
+    float steps = Mathf.Ceil((toScore - fromScore) / (float)increment);
+    float stepTime = TOTAL_DURATION / steps;
+
+    int current = fromScore;
+    while (current < toScore)
+    {
+        yield return new WaitForSeconds(stepTime);
+        current = Mathf.Min(current + increment, toScore);
+        _scoreController.UpdateScoreDisplay(current);
+        MoveScoreAreaToLeft(current);
     }
+
+    // Now check for new best score and show medals etc.
+    CheckAndShowBestScore();
+}
+
+private void CheckAndShowBestScore()
+{
+    if (GameManager.Instance.IsNewBestScore)
+    {
+        UpdateBestScoreDisplay();
+        newBestScoreIcon.gameObject.SetActive(true);
+    }
+    medalManager.ShowMedal();
+    Invoke(nameof(ActivateReplayButton), 0.2f);
+}
 
 
 }

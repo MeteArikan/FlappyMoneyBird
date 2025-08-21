@@ -139,15 +139,20 @@ public class GameManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        if (_score > PlayerPrefs.GetInt("highScore"))
-        {
-            PlayerPrefs.SetInt("highScore", _score);
-            _isNewBestScore = true;
-        }
+        CheckHighscore(_score);
         OnAfterGameOver?.Invoke();
         Invoke(nameof(ShowScoreBoard), 0.5f);
 
 
+    }
+
+    public void CheckHighscore(int score)
+    {
+        if (score > PlayerPrefs.GetInt("highScore"))
+        {
+            PlayerPrefs.SetInt("highScore", score);
+            _isNewBestScore = true;
+        }
     }
 
     public int GetHighScore() => PlayerPrefs.GetInt("highScore");

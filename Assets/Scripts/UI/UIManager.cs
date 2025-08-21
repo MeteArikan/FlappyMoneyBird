@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     //private RectTransform _deathScreenRect;
     [SerializeField] private GameObject _menuScreenUI;
     [SerializeField] private GameObject _comboTextArea;
+    [SerializeField] private GameObject _maxComboTextArea;
 
     private void OnEnable()
     {
@@ -37,6 +38,10 @@ public class UIManager : MonoBehaviour
     {
         //_deathScreenRect.anchoredPosition += new Vector2(0, 3000);
         _scoreController.gameObject.SetActive(false);
+        if (GameModeController.Instance.GetGameMode() == GameMode.MoneyMode)
+        {
+            _maxComboTextArea.SetActive(true);
+        } 
         ShowComboText(false); // Hide combo UI in money mode
 
     }
