@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyOffset: 10
+  _passOffset: 2
   _moneySpeed: 2.5
 --- !u!58 &6452145486185095306
 CircleCollider2D:

@@ -1165,7 +1165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628c328752f044297b07cd98101431b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _comboText: {fileID: 1595028697}
+  _comboCounterText: {fileID: 1595028697}
+  _comboText: {fileID: 2109613858}
+  scaleEase: 24
+  punchScale: 1.5
+  animationDuration: 0.5
 --- !u!1 &896999401
 GameObject:
   m_ObjectHideFlags: 0

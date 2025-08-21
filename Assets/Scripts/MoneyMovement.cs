@@ -4,7 +4,7 @@ using UnityEngine;
 public class MoneyMovement : MonoBehaviour
 {
     [SerializeField] private float _destroyOffset = 10f; // Distance behind player to destroy
-    [SerializeField] private float _passOffset = 0.5f;
+    [SerializeField] private float _passOffset = 6f;
     [SerializeField] private float _moneySpeed = 2.5f;
     private Transform _playerTransform;
     private PlayerMovement _playerMovement;
@@ -34,6 +34,7 @@ public class MoneyMovement : MonoBehaviour
         if (_playerTransform != null && transform.position.x < _playerTransform.position.x - _destroyOffset)
         {
             Destroy(gameObject);
+            Debug.Log("Player position: " + _playerTransform.position.x + ", Money position: " + transform.position.x);
         }
     }
 
@@ -44,6 +45,7 @@ public class MoneyMovement : MonoBehaviour
         {
             GameManager.Instance.ResetComboCount();
             _playerPassed = true;
+            Debug.Log("Player position: " + _playerTransform.position.x + ", Money position: " + transform.position.x);
         }
     }
 
