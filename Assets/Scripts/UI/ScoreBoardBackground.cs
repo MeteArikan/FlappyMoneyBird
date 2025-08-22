@@ -2,20 +2,25 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using TMPro;
 
 public class ScoreBoardBackground : MonoBehaviour
 {
     public event Action OnActivateReplayButton;
+    public static event Action OnStartMaxComboAnimation;
 
     [SerializeField] private RectTransform _scoreArea;
     [SerializeField] private RectTransform _bestScoreArea;
     [SerializeField] private float _moveAmount = 30f; // Amount to move left per digit increase
+    [SerializeField] private RectTransform _bonusScoreArea;
 
 
     public MedalManager medalManager;
     public Image newBestScoreIcon;
     private ScoreController _bestScoreController;
     private ScoreController _scoreController;
+    private TMP_Text _bonusScoreText;
 
     private int _lastDigitCount = 2;
     const float TOTAL_DURATION = 0.4f;
@@ -45,12 +50,22 @@ public class ScoreBoardBackground : MonoBehaviour
     {
         //GameManager.OnAfterGameOver += UpdateBestScoreDisplay;  // for best score display
         DeathScreenUI.OnPrepareScoreCounter += PrepareCurrentScoreUI; // for current score display
+        MaxComboUI.OnComboAnimationFinished += StartAnimateBonusScore; // for max combo animation
+        if (_bonusScoreArea != null)
+        {
+            _bonusScoreText = _bonusScoreArea.GetComponent<TMP_Text>();
+            _bonusScoreText.text = "";
+            _bonusScoreText.alpha = 0;
+        }
     }
+
+
 
     private void OnDisable()
     {
         //GameManager.OnAfterGameOver -= UpdateBestScoreDisplay;  // for best score display
         DeathScreenUI.OnPrepareScoreCounter -= PrepareCurrentScoreUI; // for current score display
+        MaxComboUI.OnComboAnimationFinished -= StartAnimateBonusScore; // for max combo animation
 
     }
 
@@ -166,13 +181,15 @@ public class ScoreBoardBackground : MonoBehaviour
     //     medalManager.ShowMedal();
     //     Invoke(nameof(ActivateReplayButton), 0.2f);
     // }
-    
+
 
     private void AfterScoreCountingFinished()
-{
-    int bonus = GameManager.Instance.GetMaxComboCount * 3;
-    if (GameModeController.Instance.GetGameMode() == GameMode.MoneyMode && bonus > 0)
+    {
+        int bonus = GameManager.Instance.GetBonusPoints();
+        if (GameModeController.Instance.GetGameMode() == GameMode.MoneyMode && bonus > 0)
         {
+            //_bonusScoreText = _bonusScoreArea.GetComponent<TMP_Text>();
+            _bonusScoreText.text = "+" + bonus.ToString();
             // Calculate bonus
             //int bonus = GameManager.Instance.GetMaxComboCount * 3;
             int originalScore = GameManager.Instance.GetScore;
@@ -181,39 +198,70 @@ public class ScoreBoardBackground : MonoBehaviour
 
             // Optionally, show a bonus text here
 
+            OnStartMaxComboAnimation?.Invoke();
+
             // Animate bonus after a short delay
-            StartCoroutine(AnimateBonusScore(originalScore, newScore, bonus));
+            //StartCoroutine(AnimateBonusScore(originalScore, newScore, bonus));
         }
         else
         {
             // Normal flow
             CheckAndShowBestScore();
         }
-}
-
-private IEnumerator AnimateBonusScore(int fromScore, int toScore, int bonus)
-{
-    yield return new WaitForSeconds(0.5f); // Delay before bonus counting
-
-    // Optionally, show a "Bonus +X" UI here
-
-    // Animate score from fromScore to toScore
-    int increment = (toScore - fromScore) > 100 ? 10 : 1;
-    float steps = Mathf.Ceil((toScore - fromScore) / (float)increment);
-    float stepTime = TOTAL_DURATION / steps;
-
-    int current = fromScore;
-    while (current < toScore)
-    {
-        yield return new WaitForSeconds(stepTime);
-        current = Mathf.Min(current + increment, toScore);
-        _scoreController.UpdateScoreDisplay(current);
-        MoveScoreAreaToLeft(current);
     }
 
-    // Now check for new best score and show medals etc.
-    CheckAndShowBestScore();
-}
+    private void StartAnimateBonusScore()
+    {
+        
+        //.OnComplete(() =>
+        //{
+            //_bonusScoreArea.DOAnchorPosY(30, 0.5f).SetRelative().SetEase(Ease.OutBack);
+            BonusScoreAnimationSeq();
+        //});
+        //StartCoroutine(AnimateBonusScore());
+    }
+
+    private void BonusScoreAnimationSeq()
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(_scoreArea.DOPunchScale(Vector3.one * 1, 0.4f, 1, 1));
+        seq.Join(_bonusScoreArea.DOAnchorPosY(30, 0.5f).SetRelative().SetEase(Ease.OutBack));
+        seq.Join(_bonusScoreText.DOFade(1, 0.25f));
+        seq.AppendInterval(0.2f);
+        seq.Append(_bonusScoreText.DOFade(0, 0.25f).SetEase(Ease.InQuad));
+        
+        seq.OnComplete(() =>
+        {
+            StartCoroutine(AnimateBonusScoreCounting());
+        });
+    }
+
+    private IEnumerator AnimateBonusScoreCounting()
+    {
+        int fromScore = GameManager.Instance.GetScore;
+        int toScore = fromScore + GameManager.Instance.GetBonusPoints();
+        //yield return new WaitForSeconds(0.5f); // Delay before bonus counting
+
+        // Optionally, show a "Bonus +X" UI here
+
+        // Animate score from fromScore to toScore
+        int increment = (toScore - fromScore) > 100 ? 10 : 1;
+        float steps = Mathf.Ceil((toScore - fromScore) / (float)increment);
+        float stepTime = TOTAL_DURATION / steps;
+
+        int current = fromScore;
+        while (current < toScore)
+        {
+            //yield return new WaitForSeconds(stepTime);
+            current = Mathf.Min(current + increment, toScore);
+            _scoreController.UpdateScoreDisplay(current);
+            MoveScoreAreaToLeft(current);
+            yield return new WaitForSeconds(stepTime);
+        }
+
+        // Now check for new best score and show medals etc.
+        CheckAndShowBestScore();
+    }
 
 private void CheckAndShowBestScore()
 {

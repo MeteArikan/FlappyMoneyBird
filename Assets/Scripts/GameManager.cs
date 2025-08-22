@@ -137,6 +137,11 @@ public class GameManager : MonoBehaviour
         OnComboCountUpdated?.Invoke();
     }
 
+    public int GetBonusPoints()
+    {
+        return _maxComboCount * 3;
+    }
+
     public void OnGameOver()
     {
         CheckHighscore(_score);
