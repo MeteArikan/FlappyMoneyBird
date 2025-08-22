@@ -1,7 +1,7 @@
 public enum GameMode
 {
-    DefaultMode,
-    MoneyMode,
-    HardMode,
+    DefaultMode = 0,
+    MoneyMode = 1,
+    HardMode = 2
     
 }

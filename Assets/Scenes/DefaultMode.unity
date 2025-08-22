@@ -406,6 +406,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641c804a7cd044f358c1da04fcd50b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  birdIcons:
+  - {fileID: 1010135059}
+  - {fileID: 255448527}
+  - {fileID: 1280938389}
   _moneyModeButton: {fileID: 542830836}
   _hardModeButton: {fileID: 1760167173}
   _defaultModeButton: {fileID: 927140922}
@@ -474,7 +478,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1065,7 +1069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1527,7 +1531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3442,6 +3446,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreController: {fileID: 4539607343221465625}
   _menuScreenUI: {fileID: 9005176556955682471}
+  _comboTextArea: {fileID: 0}
+  _maxComboTextArea: {fileID: 0}
 --- !u!222 &7412842604658404840
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3873,6 +3879,7 @@ MonoBehaviour:
   _scoreArea: {fileID: 7130085681779278561}
   _bestScoreArea: {fileID: 7293461327188556724}
   _moveAmount: 30
+  _bonusScoreArea: {fileID: 0}
   medalManager: {fileID: 8038671619612881647}
   newBestScoreIcon: {fileID: 1499519773944946253}
 --- !u!114 &8912011994315924290
