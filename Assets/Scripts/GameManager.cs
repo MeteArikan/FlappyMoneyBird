@@ -151,16 +151,34 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // public void CheckHighscore(int score)
+    // {
+    //     if (score > PlayerPrefs.GetInt("highScore"))
+    //     {
+    //         PlayerPrefs.SetInt("highScore", score);
+    //         _isNewBestScore = true;
+    //     }
+    // }
+
+    // public int GetHighScore() => PlayerPrefs.GetInt("highScore");
     public void CheckHighscore(int score)
     {
-        if (score > PlayerPrefs.GetInt("highScore"))
+        string key = $"{_currentGameMode}_highScore"; // e.g. "DefaultMode_highScore"
+        if (score > PlayerPrefs.GetInt(key, 0)) // default 0 if not set
         {
-            PlayerPrefs.SetInt("highScore", score);
+            PlayerPrefs.SetInt(key, score);
             _isNewBestScore = true;
         }
     }
 
-    public int GetHighScore() => PlayerPrefs.GetInt("highScore");
+    public int GetHighScore(GameMode mode)
+    {
+        string key = $"{mode}_highScore";
+        return PlayerPrefs.GetInt(key, 0);
+    }
+
+    public int GetCurrentModeHighScore() => GetHighScore(_currentGameMode);
+
 
 
     public void RestartGame()

@@ -34,7 +34,8 @@ public class ScoreBoardBackground : MonoBehaviour
     {
         // store baseline position and initial digit count
         _bestScoreStartPos = _bestScoreArea.anchoredPosition;
-        _bestScoreLastDigitCount = GameManager.Instance.GetHighScore().ToString().Length;
+        _bestScoreLastDigitCount = GameManager.Instance.GetHighScore(GameModeController.Instance.GetGameMode())
+        .ToString().Length;
         _bestScoreController = _bestScoreArea.GetComponentInChildren<ScoreController>();
         UpdateBestScoreDisplay(); // Initialize with current highscore
         _bestScoreController.enabled = false;
@@ -74,7 +75,7 @@ public class ScoreBoardBackground : MonoBehaviour
     private void UpdateBestScoreDisplay()
     {
         // Prepare best score display
-        int bestScore = GameManager.Instance.GetHighScore();
+        int bestScore = GameManager.Instance.GetHighScore(GameModeController.Instance.GetGameMode());
         _bestScoreController.enabled = true;
         _bestScoreController.UpdateScoreDisplay(bestScore);
         SetBestScoreUI(bestScore);
