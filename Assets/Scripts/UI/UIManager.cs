@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _menuScreenUI;
     [SerializeField] private GameObject _comboTextArea;
     [SerializeField] private GameObject _maxComboTextArea;
+    [SerializeField] private GameObject moneyModePanel;
+    [SerializeField] private GameObject hardModePanel;
 
     private void OnEnable()
     {
@@ -17,6 +19,8 @@ public class UIManager : MonoBehaviour
         GameManager.OnAfterGameOver += ShowDeathScreen;
         GameManager.OnGameMenuOpened += ShowMenuScreen;
         GameManager.OnGameStarted += HideMenuScreen;
+        //GameManager.OnUnlocksUpdated += RefreshUnlockPanels;
+        RefreshUnlockPanels();
         //_deathScreenRect = _deathScreenUI.gameObject.GetComponent<RectTransform>();
     }
 
@@ -56,10 +60,20 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void RefreshUnlockPanels()
+    {
+        if (moneyModePanel != null)
+            moneyModePanel.SetActive(!GameManager.Instance.IsMoneyModeUnlocked);
+
+        if (hardModePanel != null)
+            hardModePanel.SetActive(!GameManager.Instance.IsHardModeUnlocked);
+    }
+
     private void OnDisable()
     {
         GameManager.OnAfterGameOver -= ShowDeathScreen;
         GameManager.OnGameMenuOpened -= ShowMenuScreen;
         GameManager.OnGameStarted -= HideMenuScreen;
+        //GameManager.OnUnlocksUpdated -= RefreshUnlockPanels;
     }
 }

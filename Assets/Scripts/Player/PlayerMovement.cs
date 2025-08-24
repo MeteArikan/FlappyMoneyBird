@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsDead => _isDead;
 
+    private bool _isModeUnlocked = false;
+
     private void Awake()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         _playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
         _playerRigidbody.linearVelocity = Vector2.zero; // Ensure no lingering velocity
         _playerRigidbody.gravityScale = 0; // Explicitly set gravity to 0 to prevent any slight movement
+        _isModeUnlocked = GameManager.Instance.IsCurrentModeUnlocked();
     }
 
     void OnEnable()
@@ -62,15 +65,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isDead)
-        {
-            //_queuedFly = true;
-            BirdFly();
-        }
-        if (_playerRigidbody.linearVelocityY <= 0)
-        {
-            _playerAnimator.SetBool("IsJumping", false);
-        }
+        //  if (_isModeUnlocked)
+        //     {
+            if (Input.GetKeyDown(KeyCode.Space) && !_isDead)
+            {
+                //_queuedFly = true;
+                if (_isModeUnlocked)  BirdFly();
+            }
+            if (_playerRigidbody.linearVelocityY <= 0)
+            {
+                _playerAnimator.SetBool("IsJumping", false);
+            }
+            // }
     }
 
 

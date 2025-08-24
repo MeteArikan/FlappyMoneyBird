@@ -29,8 +29,10 @@ public class MedalManager : MonoBehaviour
 
     public void ShowMedal()
     {
+        int score = GameModeController.Instance.GetGameMode() == GameMode.MoneyMode ? 
+            GameManager.Instance.GetScore + GameManager.Instance.GetBonusPoints() : GameManager.Instance.GetScore;
         MedalSO awarded = _medalSortedList
-        .Where(medal => GameManager.Instance.GetScore >= medal.MedalMinScore)
+        .Where(medal => score >= medal.MedalMinScore)
         .LastOrDefault();
 
         if (awarded != null)
