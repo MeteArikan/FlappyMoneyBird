@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //  if (_isModeUnlocked)
         //     {
-            if (Input.GetKeyDown(KeyCode.Space) && !_isDead)
+            if (InputHelper.IsTapOrClick() && !_isDead)
             {
                 //_queuedFly = true;
                 if (_isModeUnlocked)  BirdFly();

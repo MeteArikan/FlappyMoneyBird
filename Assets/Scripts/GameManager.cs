@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         //PlayerPrefs.SetInt("highScore", 0);
         //SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.activeSceneChanged += OnNewSceneLoaded;
-        LockModes();
+        //LockModes();
     }
 
 
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         // {
         //     OnGameStart();
         // }
-        if (!_isGameStarted && Input.GetKeyDown(KeyCode.Space))
+        if (!_isGameStarted && InputHelper.IsTapOrClick())
         {
             if (!IsCurrentModeUnlocked())
             {
@@ -221,13 +221,13 @@ public class GameManager : MonoBehaviour
     }
 
     // test function
-    public void LockModes()
-    {
-        PlayerPrefs.SetInt("MoneyMode_Unlocked", 0);
-        PlayerPrefs.SetInt("HardMode_Unlocked", 0);
-        //OnUnlocksUpdated?.Invoke();
-        Debug.Log("All modes locked for testing.");
-    }
+    // public void LockModes()
+    // {
+    //     PlayerPrefs.SetInt("MoneyMode_Unlocked", 0);
+    //     PlayerPrefs.SetInt("HardMode_Unlocked", 0);
+    //     //OnUnlocksUpdated?.Invoke();
+    //     Debug.Log("All modes locked for testing.");
+    // }
 
     public int GetHighScore(GameMode mode)
     {
