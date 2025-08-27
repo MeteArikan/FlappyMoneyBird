@@ -18,6 +18,8 @@ You can play it here : https://metearikan.itch.io/flappymoneybird
 
 IMPORTANT NOTE: ​ Unfortunately, there is a resolution misconfiguration in mobile, therefore the other modes are not playable, but you can still play the classic mode. 
 
+DISCLAIMER: These assets belong to their original creator, Dong Nguyen (DotGears).
+
 Screnshots:
 
 <img width="484" height="858" alt="Image" src="https://github.com/user-attachments/assets/443928e2-234d-4023-87db-e64c9d34d52e" />
