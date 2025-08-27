@@ -19,6 +19,7 @@ You can play it here : https://metearikan.itch.io/flappymoneybird
 IMPORTANT NOTE: ​ Unfortunately, there is a resolution misconfiguration in mobile, therefore the other modes are not playable, but you can still play the classic mode. 
 
 Sprites and audio asset sources: Dong Nguyen (.Gears Studios), original Flappy Bird (2013). All rights reserved by the creator. Used here with acknowledgment, no claim of ownership.
+
 Obtained sprites from this website: https://www.spriters-resource.com/mobile/flappybird/asset/59894/
 
 Screnshots:
