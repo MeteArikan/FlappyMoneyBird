@@ -14,6 +14,8 @@ Controls:
 
 Press space to start and fly,  use mouse to click the buttons
 
+You can play it here : https://metearikan.itch.io/flappymoneybird
+
 IMPORTANT NOTE: ​ Unfortunately, there is a resolution misconfiguration in mobile, therefore the other modes are not playable, but you can still play the classic mode. 
 
 Screnshots:
