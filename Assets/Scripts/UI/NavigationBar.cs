@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class NavigationBar : MonoBehaviour
 {
-    [SerializeField] private Transform[] birdIcons; // Assign in Inspector: 0=Default, 1=Money, 2=Hard
+    [SerializeField] private Transform[] birdIcons; // assign in Inspector: 0=Default, 1=Money, 2=Hard
     [SerializeField] private Button _moneyModeButton;
     [SerializeField] private Button _hardModeButton;
     [SerializeField] private Button _defaultModeButton;
@@ -62,8 +62,6 @@ public class NavigationBar : MonoBehaviour
         birdIcons[modeIndex]
             .DOLocalRotate(new Vector3(0, 0, 30f), 0.3f)
             .SetEase(Ease.OutBack);
-
-        Debug.Log("Animating bird: " + modeIndex);
 
         // Update button states
         _defaultModeButton.interactable = modeIndex != 0;

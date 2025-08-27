@@ -21,7 +21,6 @@ public class MoneyMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!_playerMovement.IsDead)
@@ -34,7 +33,6 @@ public class MoneyMovement : MonoBehaviour
         if (_playerTransform != null && transform.position.x < _playerTransform.position.x - _destroyOffset)
         {
             Destroy(gameObject);
-            Debug.Log("Player position: " + _playerTransform.position.x + ", Money position: " + transform.position.x);
         }
     }
 
@@ -45,15 +43,12 @@ public class MoneyMovement : MonoBehaviour
         {
             GameManager.Instance.ResetComboCount();
             _playerPassed = true;
-            Debug.Log("Player position: " + _playerTransform.position.x + ", Money position: " + transform.position.x);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player") && !_playerMovement.IsDead)
         {
-            // Logic for when the player collects the money
-            Debug.Log("Money collected!");
             Destroy(gameObject);
         }
     }

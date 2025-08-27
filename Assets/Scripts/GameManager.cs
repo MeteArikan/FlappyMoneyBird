@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     public static Action OnGameMenuOpened;
     public static Action OnGameStarted;
     public static Action OnComboCountUpdated;
-//    public static event Action OnUnlocksUpdated;
 
 
     private int _score;
@@ -29,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     public int GetComboCount => _comboCount;
     public int GetMaxComboCount => _maxComboCount;
-    //public bool IsGameStarted => _isGameStarted;
+
     // Unlock flags
     public bool IsMoneyModeUnlocked => PlayerPrefs.GetInt("MoneyMode_Unlocked", 0) == 1;
     public bool IsHardModeUnlocked => PlayerPrefs.GetInt("HardMode_Unlocked", 0) == 1;
@@ -50,18 +49,13 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //Time.timeScale = 0f;
-        //PlayerPrefs.SetInt("highScore", 0);
-        //SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.activeSceneChanged += OnNewSceneLoaded;
-        //LockModes();
     }
 
 
 
     private void OnDisable()
     {
-        //SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.activeSceneChanged -= OnNewSceneLoaded;
 
     }
@@ -69,25 +63,13 @@ public class GameManager : MonoBehaviour
     private void OnNewSceneLoaded(Scene arg0, Scene arg1)
     {
         _currentGameMode = GameModeController.Instance.GetGameMode();
-        //        CheckUnlocks();
-
-
-        // Log the current game mode to the console.
-        Debug.Log("Current Game Mode: " + _currentGameMode);
-        OpenMenu();
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
         OpenMenu();
     }
 
     private void OpenMenu()
     {
-        //Time.timeScale = 0f;
-        OnGameMenuOpened?.Invoke(); // Invoke the new OnGamePaused event
+        OnGameMenuOpened?.Invoke(); 
         _isGameStarted = false;
-        Debug.Log("Menu screen is opened"); // For debugging
     }
 
     public void OnGameStart()
@@ -105,27 +87,19 @@ public class GameManager : MonoBehaviour
             _maxComboCount = 0;
             OnComboCountUpdated?.Invoke();
         }
-
-        Debug.Log("Game Started");
     }
 
 
     private void Update()
     {
-        // Check for Space key press only if the game hasn't started yet
-        // if (!_isGameStarted && Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     OnGameStart();
-        // }
         if (!_isGameStarted && InputHelper.IsTapOrClick())
         {
             if (!IsCurrentModeUnlocked())
             {
-                Debug.Log("Mode is locked. Cannot start game.");
-                return; // ❌ Prevent start
+                return; // Prevent start
             }
 
-            OnGameStart(); // ✅ Only runs if unlocked
+            OnGameStart(); // Only runs if unlocked
         }
     }
 
@@ -162,32 +136,21 @@ public class GameManager : MonoBehaviour
     public void OnGameOver()
     {
         CheckHighscore(_score);
-        CheckUnlocks(); // <-- Make sure this is called here
+        CheckUnlocks(); 
         OnAfterGameOver?.Invoke();
         Invoke(nameof(ShowScoreBoard), 0.5f);
 
 
     }
 
-    // public void CheckHighscore(int score)
-    // {
-    //     if (score > PlayerPrefs.GetInt("highScore"))
-    //     {
-    //         PlayerPrefs.SetInt("highScore", score);
-    //         _isNewBestScore = true;
-    //     }
-    // }
-
-    // public int GetHighScore() => PlayerPrefs.GetInt("highScore");
     public void CheckHighscore(int score)
     {
-        string key = $"{_currentGameMode}_highScore"; // e.g. "DefaultMode_highScore"
+        string key = $"{_currentGameMode}_highScore"; 
         if (score > PlayerPrefs.GetInt(key, 0)) // default 0 if not set
         {
             PlayerPrefs.SetInt(key, score);
             _isNewBestScore = true;
         }
-        //CheckUnlocks();
     }
 
     // Check unlock requirements
@@ -197,16 +160,12 @@ public class GameManager : MonoBehaviour
         if (!IsMoneyModeUnlocked && GetHighScore(GameMode.DefaultMode) >= 5)
         {
             PlayerPrefs.SetInt("MoneyMode_Unlocked", 1);
-            //OnUnlocksUpdated?.Invoke();
-            Debug.Log("MoneyMode unlocked!");
         }
 
         // Unlock HardMode if MoneyMode max combo >= 6
         if (!IsHardModeUnlocked && GetHighScore(GameMode.MoneyMode) >= 0 && GetMaxComboCount >= 6)
         {
             PlayerPrefs.SetInt("HardMode_Unlocked", 1);
-            //OnUnlocksUpdated?.Invoke();
-            Debug.Log("HardMode unlocked!");
         }
     }
 
@@ -219,15 +178,6 @@ public class GameManager : MonoBehaviour
             _ => true,// DefaultMode is always unlocked
         };
     }
-
-    // test function
-    // public void LockModes()
-    // {
-    //     PlayerPrefs.SetInt("MoneyMode_Unlocked", 0);
-    //     PlayerPrefs.SetInt("HardMode_Unlocked", 0);
-    //     //OnUnlocksUpdated?.Invoke();
-    //     Debug.Log("All modes locked for testing.");
-    // }
 
     public int GetHighScore(GameMode mode)
     {
@@ -242,7 +192,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         AudioManager.Instance.Play(SoundType.TransitionSound);
-        //SceneManager.LoadScene("DefaultMode");
         SceneManager.LoadScene(_currentGameMode.ToString());
     }
 
@@ -250,7 +199,6 @@ public class GameManager : MonoBehaviour
     {
         if(gameMode == _currentGameMode)
         {
-            Debug.Log("Already in the selected game mode: " + gameMode);
             return; // No need to change scene if already in the selected game mode
         }
         GameModeController.Instance.ChangeGameMode(gameMode);
@@ -260,7 +208,6 @@ public class GameManager : MonoBehaviour
 
     public void ShowScoreBoard()
     {
-        //Time.timeScale = 0f;
         OnShowScoreBoard?.Invoke();
     }
 }

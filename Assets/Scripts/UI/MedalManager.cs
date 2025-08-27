@@ -9,7 +9,7 @@ public class MedalManager : MonoBehaviour
     private Image _medalImage;
 
 
-    [SerializeField] private MedalSO[] _medalSortedList;    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private MedalSO[] _medalSortedList; 
 
 
     void Awake()
@@ -37,7 +37,6 @@ public class MedalManager : MonoBehaviour
 
         if (awarded != null)
         {
-            // set the sprite and name on your UI
             _medalImage.enabled = true;
             _medalImage.sprite = awarded.MedalSprite;
         }

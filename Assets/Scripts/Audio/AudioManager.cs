@@ -35,7 +35,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(Sounds, sound => sound.SoundType == soundType);
         if (s == null)
         {
-            Debug.LogWarning($"Sound with type {soundType} not found in AudioManager.");
+            //Debug.LogWarning($"Sound with type {soundType} not found in AudioManager.");
             return;
         }
 
@@ -47,7 +47,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(Sounds, sound => sound.SoundType == soundType);
         if (s == null)
         {
-            Debug.LogWarning($"Sound with type {soundType} not found in AudioManager.");
+            //Debug.LogWarning($"Sound with type {soundType} not found in AudioManager.");
             return;
         }
 

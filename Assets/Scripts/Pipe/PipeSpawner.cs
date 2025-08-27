@@ -17,7 +17,6 @@ public class PipeSpawner : MonoBehaviour
 
     private void Start()
     {
-        //SpawnPipes();
         GameManager.OnGameStarted += SpawnPipes;
         GameManager.OnAfterGameOver += StopSpawningPipes;
     }
@@ -34,8 +33,6 @@ public class PipeSpawner : MonoBehaviour
         while (true)
         {
             Instantiate(_pipesPrefab, new Vector3(3f, UnityEngine.Random.Range(-_height, _height), 0f), Quaternion.identity);
-            //Instantiate(_pipesPrefab, new Vector3(3f,  -_height, 0f), Quaternion.identity);
-            Debug.Log("Spawned Pipes");
             yield return new WaitForSeconds(_spawnInterval);
         }
 
@@ -55,12 +52,8 @@ public class PipeSpawner : MonoBehaviour
             {
                 _pipeObject = Instantiate(_pipesPrefab, new Vector3(3f, UnityEngine.Random.Range(-_height, -_height + 2.5f), 0f), Quaternion.identity);
             }
-            //_pipeObject = Instantiate(_pipesPrefab, new Vector3(3f, UnityEngine.Random.Range(-_height, _height), 0f), Quaternion.identity);
-            //Instantiate(_pipesPrefab, new Vector3(3f,  -_height, 0f), Quaternion.identity);
-            Debug.Log("Spawned Pipes in Money Mode");
             yield return new WaitForSeconds(_spawnInterval / 2f);
             CallMoneySpawner(_pipeObject.transform.position.y);
-            //Invoke(nameof(CallMoneySpawner), _spawnInterval / 2f);
             yield return new WaitForSeconds(_spawnInterval / 2f);
         }
             

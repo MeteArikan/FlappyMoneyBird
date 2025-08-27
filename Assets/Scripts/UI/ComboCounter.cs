@@ -7,10 +7,8 @@ public class ComboCounter : MonoBehaviour
     [SerializeField] private TMP_Text _comboCounterText;
     [SerializeField] private TMP_Text _comboText;
     [SerializeField] private Ease scaleEase = Ease.OutElastic;
-    //[SerializeField] private Ease colorEase = Ease.OutQuad;
     [SerializeField] private float punchScale = 1.5f;
     [SerializeField] private float animationDuration = 0.5f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnEnable()
     {
         GameManager.OnComboCountUpdated += UpdateComboText;
@@ -28,7 +26,6 @@ public class ComboCounter : MonoBehaviour
         _comboCounterText.alpha = 1f;
         _comboText.alpha = 1f;
         _comboCounterText.text = "x" + comboCount.ToString();
-        //_comboText.color = GameManager.Instance.GetComboCount > 1 ? Color.yellow : Color.white;
         ChangeColor(comboCount);
         if (comboCount > 1)
         {

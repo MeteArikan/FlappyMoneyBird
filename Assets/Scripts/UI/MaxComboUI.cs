@@ -34,15 +34,11 @@ public class MaxComboUI : MonoBehaviour
         seq.Append(_maxComboNumberTransform.DOAnchorPos(new Vector2(30, 30), 0.35f)
             .SetRelative()
             .SetEase(Ease.OutExpo));
-        //.OnComplete(() =>// _maxComboNumberTransform.DOAnchorPos(new Vector2(0,0), 0.25f).SetRelative().SetEase(Ease.InBack));
         seq.Append(_maxComboNumberTransform.DOAnchorPos(new Vector2(-50, -270), 0.5f)
             .SetRelative()
-            //.SetEase(Ease.OutQuart)
             );
-        seq.Join(_maxComboNumber.DOFade(0f, 0.5f)) //.SetEase(Ease.OutBounce)
-        //.OnComplete(() => _maxComboText.transform.DOMove(Vector3.zero, 0.5f).SetEase(Ease.InBack))
+        seq.Join(_maxComboNumber.DOFade(0f, 0.5f)) 
         ;
-        
         seq.OnComplete(() =>
         {
             OnComboAnimationFinished?.Invoke();

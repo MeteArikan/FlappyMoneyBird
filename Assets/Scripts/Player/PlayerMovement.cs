@@ -9,15 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpSpeed = 3f;
     [SerializeField] private float initialGravityScale = 1f; // Store original gravity
 
-    //private bool canFly = false; // Control if the bird can receive input
-
-
-
     private Rigidbody2D _playerRigidbody;
     private Animator _playerAnimator;
-    //private bool _isJumpTriggered = false;
     private bool _isDead;
-    //private bool _queuedFly = false;
 
     public bool IsDead => _isDead;
 
@@ -33,73 +27,39 @@ public class PlayerMovement : MonoBehaviour
     {
         initialGravityScale = _playerRigidbody.gravityScale;
         _playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
-        _playerRigidbody.linearVelocity = Vector2.zero; // Ensure no lingering velocity
-        _playerRigidbody.gravityScale = 0; // Explicitly set gravity to 0 to prevent any slight movement
+        _playerRigidbody.linearVelocity = Vector2.zero; 
+        _playerRigidbody.gravityScale = 0; // prevent any movement
         _isModeUnlocked = GameManager.Instance.IsCurrentModeUnlocked();
     }
 
     void OnEnable()
     {
-        // Subscribe to the OnGameStart event
         GameManager.OnGameStarted += GameManager_OnGameStarted;
     }
 
     void OnDisable()
     {
-        // Unsubscribe from the OnGameStart event when this object is disabled or destroyed
-        // This is crucial to prevent memory leaks and null reference errors
         GameManager.OnGameStarted -= GameManager_OnGameStarted;
     }
 
-
-    // void Update()
-    // {
-
-    //     if (!_isDead && Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         BirdFly();
-    //         // _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
-    //         // AudioManager.Instance.Play(SoundType.FlySound);
-    //     }
-    // }
-
     void Update()
     {
-        //  if (_isModeUnlocked)
-        //     {
-            if (InputHelper.IsTapOrClick() && !_isDead)
-            {
-                //_queuedFly = true;
-                if (_isModeUnlocked)  BirdFly();
-            }
-            if (_playerRigidbody.linearVelocityY <= 0)
-            {
-                _playerAnimator.SetBool("IsJumping", false);
-            }
-            // }
+
+        if (InputHelper.IsTapOrClick() && !_isDead)
+        {
+            if (_isModeUnlocked)  BirdFly();
+        }
+        if (_playerRigidbody.linearVelocityY <= 0)
+        {
+            _playerAnimator.SetBool("IsJumping", false);
+        }
     }
 
-
-
-    // void FixedUpdate()
-    // {
-    //     if (_queuedFly && !_isDead)
-    //     {
-    //         BirdFly();
-    //         _queuedFly = false;
-    //     }
-    //     else
-    //     {
-    //     _queuedFly = false;
-    //     }   
-    // }
 
 
 
     private void BirdFly()
     {
-
-        //Invoke(nameof(DisableJumpTrigger), 0.32f); // Disable the jump trigger after a short delay
 
         _playerRigidbody.linearVelocity = Vector2.up * _jumpSpeed;
         _playerRigidbody.linearDamping = 0.5f;
@@ -108,16 +68,9 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    // private void DisableJumpTrigger()
-    // {
-    //     _isJumpTriggered = false;
-  
-    // }
-
     private void GameManager_OnGameStarted()
     {
         _playerRigidbody.bodyType = RigidbodyType2D.Dynamic; // Allow physics to affect the bird
-        //canFly = true; // Allow player input
         _playerRigidbody.gravityScale = initialGravityScale; // Restore gravity
 
     }
@@ -158,13 +111,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
         
-
-        // if (other.gameObject.CompareTag("Platform") && !_isDead)
-        // {
-        //     AudioManager.Instance.Play(SoundType.HitSound);
-        //     BirdFall();
-
-        // }
     }
 
     private void BirdDeath()

@@ -29,7 +29,6 @@ public class PipeMovement : MonoBehaviour
             _playerMovement = player.GetComponent<PlayerMovement>();
 
         }
-        //_isGoingUp = Random.value > 0.5f;
         if (GameModeController.Instance.GetGameMode() == GameMode.HardMode)
         {
             ChooseVerticalMoveDirection();
@@ -86,16 +85,6 @@ public class PipeMovement : MonoBehaviour
 
     private void VerticalMovement()
     {
-        // if (_isGoingUp)
-        // {
-        //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.up * 0.3f; // Add some vertical movement in Hard Mode
-        // }
-        // else
-        // {
-        //     transform.position += _pipeSpeed * Time.deltaTime * Vector3.down * 0.3f; // Add some vertical movement in Hard Mode
-        // }
-
-        //transform.position += _pipeSpeed * Time.deltaTime * _verticalMoveDirection * 0.4f; // Add some vertical movement in Hard Mode
         if (_isOscillating)
         {
             transform.position += _pipeSpeed * 0.7f * Mathf.Sin(Time.time * 2.5f) * Time.deltaTime * _verticalMoveDirection;

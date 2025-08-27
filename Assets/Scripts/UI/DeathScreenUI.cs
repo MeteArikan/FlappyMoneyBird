@@ -19,22 +19,18 @@ public class DeathScreenUI : MonoBehaviour
 
 
     private RectTransform _scoreBoardTransform;
-    //private ScoreBoardBackground _scoreBoardScript;
 
 
     private void Start()
     {
         _replayButton.onClick.AddListener(RestartGame);
         _scoreBoardTransform = _scoreBoard.GetComponent<RectTransform>();
-        //_scoreBoardScript = _scoreBoardObject.GetComponent<ScoreBoardBackground>();
 
     }
     private void OnEnable()
     {
 
         _replayButton.gameObject.SetActive(false);
-        //_gameOverTitleParent.gameObject.SetActive(false);
-        //_replayButton.image.DOFade(0f, 0).SetEase(Ease.Linear);
         _gameTitle.DOFade(0f, 0).SetEase(Ease.Linear);
         _overTitle.DOFade(0f, 0).SetEase(Ease.Linear);
 
@@ -67,11 +63,6 @@ public class DeathScreenUI : MonoBehaviour
             .DOAnchorPosY(60, _animationDuration)  // target is “+60” not an absolute value yet
             .SetRelative()                // makes it add to the current value
             .SetEase(Ease.OutElastic)  // (optional) smoothing
-            // .OnComplete(() =>
-            // {
-            //     _replayButton.gameObject.SetActive(true);
-            //     //_replayButton.image.DOFade(1f, _animationDuration * 2).SetEase(Ease.OutBack);
-            // })
             ;
     }
 
